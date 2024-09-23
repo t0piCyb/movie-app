@@ -2,6 +2,8 @@
   <header
     class="w-full fixed bg-primary z-50 h-20 flex justify-center items-center"
   >
+    <img src="/icon.svg" class="h-20 w-20" alt="logo" />
+
     <h1 class="text-4xl font-bold text-primary-foreground">Movie App</h1>
   </header>
   <div class="flex flex-col gap-4 p-8">

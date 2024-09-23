@@ -1,18 +1,6 @@
 import { defineStore } from "pinia";
 import { Movie } from "../models/movie.schema";
 
-export const useMovieStore = defineStore({
-  id: "movie",
-  state: () => ({
-    movie: {} as Movie,
-  }),
-  actions: {
-    setMovie(movie: Movie) {
-      this.movie = movie;
-    },
-  },
-});
-
 export const useMoviesStore = defineStore("movies", {
   state: () => ({
     movies: [] as Movie[],
@@ -20,8 +8,13 @@ export const useMoviesStore = defineStore("movies", {
     filterTitle: "",
     favorites: [] as string[],
     isFilterFavorites: false,
+
+    imdbIDSearched: "",
   }),
   actions: {
+    setImdbIDSearched(imdbID: string) {
+      this.imdbIDSearched = imdbID;
+    },
     setMovies(movies: Movie[]) {
       this.movies = movies;
       this.setFilteredMovies(movies);

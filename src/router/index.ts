@@ -11,9 +11,10 @@ const router = createRouter({
       component: MovieListView,
     },
     {
-      path: "/movie",
+      path: "/movie/:imdbID",
       name: "movie",
       component: MovieView,
+      props: true,
     },
   ],
 });

@@ -56,7 +56,7 @@
 <script lang="ts">
 import { StarIcon } from "lucide-vue-next";
 import { Movie } from "../../models/movie.schema";
-import { useMoviesStore, useMovieStore } from "../../stores/movies.store";
+import { useMoviesStore } from "../../stores/movies.store";
 import { Button } from "../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
@@ -81,8 +81,10 @@ export default {
   },
   methods: {
     goToMovie() {
-      useMovieStore().setMovie(this.movie);
-      this.$router.push("/movie");
+      this.$router.push({
+        name: "movie",
+        params: { imdbID: this.movie.imdbID },
+      });
     },
     toggleFavorite() {
       const store = useMoviesStore();

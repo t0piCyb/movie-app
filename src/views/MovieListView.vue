@@ -58,8 +58,7 @@ export default {
       isLoadingName: false,
       isLoadingId: false,
       error: null,
-      movieId: "",
-      movieName: "",
+      movieId: useMoviesStore().imdbIDSearched ?? "",
       movies: [] as Movie[],
     };
   },
@@ -68,9 +67,11 @@ export default {
       if (id === "") {
         return;
       }
-      this.movieId = id;
-      this.isLoadingId = true;
       const store = useMoviesStore();
+      this.movieId = id;
+      store.setImdbIDSearched(id);
+      this.isLoadingId = true;
+
       store.resetMovies();
 
       const listId = id.split(",");

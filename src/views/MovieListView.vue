@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-4 p-8">
     <div class="flex flex-row gap-4">
-      <div class="flex flex-row gap-2 w-full">
+      <div class="flex flex-row gap-2 w-full justify-between">
         <Input
           size="xl"
           v-model="movieId"
@@ -14,6 +14,7 @@
           @click="getMovieID(movieId)"
           ><Search
         /></Button>
+
         <div v-else class="flex justify-center items-center">
           <Loader2 class="animate-spin"></Loader2>
         </div>

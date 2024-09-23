@@ -4,27 +4,40 @@
       <CardHeader>
         <div class="flex flex-col gap-4">
           <CardTitle>Your Movie List</CardTitle>
-
-          <div
-            v-if="store.movies.length > 1"
-            class="relative w-full max-w-sm items-center"
-          >
-            <Input
-              type="text"
-              v-model="movieFilterName"
-              placeholder="Filter movies by title"
-              @keyup.enter="filterMovieName()"
-              @update:model-value="filterMovieName()"
-              class="pr-10"
-            />
-            <Button
-              v-if="movieFilterName !== ''"
-              @click="(movieFilterName = ''), filterMovieName()"
-              variant="ghost"
-              class="absolute right-0 inset-y-0 flex items-center justify-center px-2"
+          <div class="flex flex-row gap-2">
+            <div
+              v-if="store.movies.length > 1"
+              class="relative w-full max-w-sm items-center"
             >
-              <X class="size-6" />
-            </Button>
+              <Input
+                type="text"
+                v-model="movieFilterName"
+                placeholder="Filter movies by title"
+                @keyup.enter="filterMovieName()"
+                @update:model-value="filterMovieName()"
+                class="pr-10"
+              />
+              <Button
+                v-if="movieFilterName !== ''"
+                @click="(movieFilterName = ''), filterMovieName()"
+                variant="ghost"
+                class="absolute right-0 inset-y-0 flex items-center justify-center px-2"
+              >
+                <X class="size-6" />
+              </Button>
+            </div>
+            <Toggle
+              v-if="store.movies.length > 0"
+              @click="filterFavorites()"
+              class="flex flex-row gap-2"
+            >
+              <StarIcon
+                :class="
+                  cn(store.isFilterFavorites ? 'text-yellow-400' : 'text-black')
+                "
+              />
+              Filter favorites
+            </Toggle>
           </div>
         </div>
       </CardHeader>
@@ -44,11 +57,13 @@
 </template>
 
 <script lang="ts">
-import { Loader2, Search, X } from "lucide-vue-next";
+import { Loader2, Search, StarIcon, X } from "lucide-vue-next";
+import { cn } from "../../lib/utils";
 import { useMoviesStore } from "../../stores/movies.store";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
+import { Toggle } from "../ui/toggle";
 import MovieItemList from "./MovieItemList.vue";
 
 export default {
@@ -64,11 +79,14 @@ export default {
     Search,
     Loader2,
     X,
+    Toggle,
+    StarIcon,
   },
   data() {
     return {
       movieFilterName: "",
       store: useMoviesStore(),
+      cn: cn,
     };
   },
   computed: {
@@ -78,8 +96,10 @@ export default {
   },
   methods: {
     filterMovieName() {
-      const store = useMoviesStore();
-      store.setFilterTitle(this.movieFilterName);
+      this.store.setFilterTitle(this.movieFilterName);
+    },
+    filterFavorites() {
+      this.store.filterFavorites();
     },
   },
   setup() {

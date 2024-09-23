@@ -6,7 +6,7 @@
   </header>
   <div class="flex flex-col gap-4 p-8">
     <TooltipProvider>
-      <div class="flex mt-14">
+      <div class="flex-grow mt-14">
         <RouterView />
       </div>
     </TooltipProvider>

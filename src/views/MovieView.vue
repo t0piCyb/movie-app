@@ -1,16 +1,35 @@
 <template>
   <Card>
     <CardHeader>
-      <div class="flex flex-row gap-2">
+      <div class="flex flex-row justify-between gap-2 items-center">
+        <div class="flex flex-row gap-2">
+          <Tooltip>
+            <TooltipTrigger>
+              <RouterLink to="/"><ArrowLeft /></RouterLink>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Back to home</p>
+            </TooltipContent>
+          </Tooltip>
+          <CardTitle>{{ movie.Title }}</CardTitle>
+        </div>
         <Tooltip>
           <TooltipTrigger>
-            <RouterLink to="/"><ArrowLeft /></RouterLink>
+            <Button variant="ghost" @click="toggleFavorite()" class="z-10">
+              <StarIcon
+                v-if="favorited"
+                :fill="'rgb(250,204,21)'"
+                class="size-10 text-yellow-400"
+              />
+              <StarIcon v-else class="size-10" />
+            </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Back to home</p>
+            <p>
+              {{ favorited ? "Remove from favorites" : "Add to favorites" }}
+            </p>
           </TooltipContent>
         </Tooltip>
-        <CardTitle>{{ movie.Title }}</CardTitle>
       </div></CardHeader
     >
     <CardContent>
@@ -131,13 +150,13 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ArrowLeft, Copy, CopyCheck } from "lucide-vue-next";
+import { ArrowLeft, Copy, CopyCheck, StarIcon } from "lucide-vue-next";
 import { Button } from "../components/ui/button";
 import { Card, CardHeader, CardTitle } from "../components/ui/card";
 import CardContent from "../components/ui/card/CardContent.vue";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Separator } from "../components/ui/separator";
-import { useMovieStore } from "../stores/movies.store";
+import { useMoviesStore, useMovieStore } from "../stores/movies.store";
 
 export default {
   name: "Movie",
@@ -156,6 +175,7 @@ export default {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
+    StarIcon,
   },
   setup() {
     return {};
@@ -171,7 +191,17 @@ export default {
       isCopied: false,
     };
   },
+  computed: {
+    favorited() {
+      const store = useMoviesStore();
+      return store.favorites.includes(this.movie.imdbID);
+    },
+  },
   methods: {
+    toggleFavorite() {
+      const store = useMoviesStore();
+      store.toggleFavorite(this.movie.imdbID);
+    },
     copyId() {
       navigator.clipboard.writeText(this.movie.imdbID);
       this.isCopied = true;

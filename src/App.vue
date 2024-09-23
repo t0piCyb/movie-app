@@ -11,7 +11,7 @@
         <Button
           v-if="!isLoadingName"
           :variant="'ghost'"
-          @click="getMovieName(movieId)"
+          @click="getMovieName(movieName)"
           ><Search
         /></Button>
         <div v-else class="flex justify-center items-center">

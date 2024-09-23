@@ -2,6 +2,18 @@ import { defineStore } from "pinia";
 import { API_KEY } from "../lib/env";
 import { Movie } from "../models/movie.schema";
 
+export const useMovieStore = defineStore({
+  id: "movie",
+  state: () => ({
+    movie: {} as Movie,
+  }),
+  actions: {
+    setMovie(movie: Movie) {
+      this.movie = movie;
+    },
+  },
+});
+
 export const useMoviesStore = defineStore({
   id: "movies",
   state: () => ({

@@ -1,5 +1,8 @@
 <template>
-  <li class="flex w-full rounded-md hover:bg-slate-100">
+  <li
+    class="flex w-full rounded-md hover:bg-slate-100 hover:cursor-pointer"
+    @click="goToMovie()"
+  >
     <div class="flex items-center m-2 w-full flex-row gap-4">
       <div>
         <img :src="movie.Poster" alt="poster" />
@@ -31,12 +34,19 @@
 
 <script lang="ts">
 import { Movie } from "../../models/movie.schema";
+import { useMovieStore } from "../../stores/movies.store";
 
 export default {
   name: "MovieItemList",
   props: { movie: { type: Object as () => Movie, required: true } },
   setup(props) {
     return props.movie;
+  },
+  methods: {
+    goToMovie() {
+      useMovieStore().setMovie(this.movie);
+      this.$router.push("/movie");
+    },
   },
 };
 </script>

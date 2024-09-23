@@ -44,7 +44,7 @@
           <div>
             Actors : <span class="font-bold">{{ movie.Actors }}</span>
           </div>
-          <div class="text-pretty">
+          <div class="pr-10">
             Plot : <span class="font-semibold">{{ movie.Plot }}</span>
           </div>
         </div>

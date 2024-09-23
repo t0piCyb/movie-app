@@ -3,7 +3,7 @@
     <Card>
       <CardHeader>
         <div class="flex flex-col gap-4">
-          <CardTitle>Your Movie List</CardTitle>
+          <CardTitle>Your movies list</CardTitle>
           <div class="flex flex-row gap-2">
             <div
               v-if="store.movies.length > 1"

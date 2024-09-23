@@ -20,6 +20,8 @@ to run the project run
 pnpm run dev
 ```
 
+you can test the app with the following imdbID: tt0050083, tt3896198
+
 ## Consignes
 
 # Senior Vue.js Developer Recruitment Test - UI/UX Focus

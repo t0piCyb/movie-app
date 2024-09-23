@@ -1,12 +1,15 @@
 <template>
   <Card>
     <CardHeader>
-      <CardTitle>{{ movie.Title }}</CardTitle></CardHeader
+      <div class="flex flex-row gap-2">
+        <RouterLink to="/"><ArrowLeft /></RouterLink>
+        <CardTitle>{{ movie.Title }}</CardTitle>
+      </div></CardHeader
     >
     <CardContent>
       <div class="flex flex-row gap-4">
         <div>
-          <img :src="movie.Poster" class="h-96 w-64" alt="poster" />
+          <img :src="movie.Poster" class="h-96 w-96" alt="poster" />
         </div>
         <ScrollArea class="h-96">
           <div class="flex flex-col gap-2">
@@ -84,9 +87,18 @@
               imdbVotes : <span class="font-bold">{{ movie.imdbVotes }}</span>
             </p>
             <Separator />
-            <p>
+            <div>
               imdbID : <span class="font-bold">{{ movie.imdbID }}</span>
-            </p>
+              <Button
+                :disabled="isCopied"
+                @click="copyId()"
+                variant="ghost"
+                size="xs"
+                class="ml-2"
+                ><Copy v-if="!isCopied" :size="15" />
+                <CopyCheck v-else /><CopyCheck :size="15" v-else
+              /></Button>
+            </div>
             <Separator />
             <div class="flex flex-col gap-1">
               Ratings :
@@ -103,6 +115,8 @@
 </template>
 
 <script lang="ts">
+import { ArrowLeft, Copy, CopyCheck } from "lucide-vue-next";
+import { Button } from "../components/ui/button";
 import { Card, CardHeader, CardTitle } from "../components/ui/card";
 import CardContent from "../components/ui/card/CardContent.vue";
 import { ScrollArea } from "../components/ui/scroll-area";
@@ -119,6 +133,10 @@ export default {
     CardContent,
     ScrollArea,
     Separator,
+    Button,
+    ArrowLeft,
+    Copy,
+    CopyCheck,
   },
   setup() {
     return {};
@@ -131,7 +149,17 @@ export default {
   data() {
     return {
       movie: useMovieStore().movie,
+      isCopied: false,
     };
+  },
+  methods: {
+    copyId() {
+      navigator.clipboard.writeText(this.movie.imdbID);
+      this.isCopied = true;
+      setTimeout(() => {
+        this.isCopied = false;
+      }, 4000);
+    },
   },
 };
 </script>

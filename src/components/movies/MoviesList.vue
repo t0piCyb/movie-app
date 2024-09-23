@@ -35,10 +35,14 @@ export default {
     Input,
     Button,
   },
-  data() {
-    return {
-      movies: useMoviesStore().movies,
-    };
+  computed: {
+    movies() {
+      return useMoviesStore().movies;
+    },
+  },
+  setup() {
+    console.log("movies", useMoviesStore().movies);
+    return {};
   },
 };
 </script>

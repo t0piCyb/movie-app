@@ -1,8 +1,13 @@
 <template>
   <div class="flex flex-col gap-4 p-8">
+    <h1 class="text-4xl font-bold">Movie App</h1>
     <div class="flex flex-row gap-4">
       <div class="flex flex-row gap-2">
-        <Input v-model="movieName" placeholder="Search movie by name"></Input>
+        <Input
+          v-model="movieName"
+          placeholder="Search movie by name"
+          @keyup.enter="getMovieName(movieName)"
+        ></Input>
         <Button
           v-if="!isLoadingName"
           :variant="'ghost'"
@@ -14,7 +19,11 @@
         </div>
       </div>
       <div class="flex flex-row gap-2">
-        <Input v-model="movieId" placeholder="Search movie by id"></Input>
+        <Input
+          v-model="movieId"
+          @keyup.enter="getMovieID(movieId)"
+          placeholder="Search movie by id"
+        ></Input>
         <Button
           v-if="!isLoadingId"
           :variant="'ghost'"
@@ -98,18 +107,18 @@ export default {
         return;
       }
 
-      const movies = data as Movie[];
-      console.log("movies", movies);
+      const movies = [data] as Movie[];
       useMoviesStore().setMovies(movies);
     },
     async getMovieName(name: string) {
       if (name === "") {
         return;
       }
+
       this.movieName = name;
       this.isLoadingName = true;
       const response = await fetch(
-        `http://www.omdbapi.com/?i=${name}&apikey=${API_KEY}`
+        `http://www.omdbapi.com/?t=${name}&apikey=${API_KEY}`
       );
       const data = await response.json();
       this.isLoadingName = false;

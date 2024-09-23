@@ -12,6 +12,8 @@ to install the procject run
 pnpm install
 ```
 
+Add your API key in the file `src/lib/env.ts`
+
 to run the project run
 
 ```bash

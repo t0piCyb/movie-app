@@ -3,7 +3,6 @@
     <div class="flex flex-row gap-4">
       <div class="flex flex-row gap-2 w-full justify-between">
         <Input
-          size="xl"
           v-model="movieId"
           @keyup.enter="getMovieID(movieId)"
           placeholder="Search movies by imdbID (separate by commas if you want to search multiple movies)"
@@ -73,7 +72,7 @@ export default {
       this.movieId = id;
       this.isLoadingId = true;
       const store = useMoviesStore();
-      store.$reset;
+      store.resetMovies();
 
       const listId = id.split(",");
       listId.map(async (id) => {

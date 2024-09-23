@@ -2,14 +2,25 @@
   <Card>
     <CardHeader>
       <div class="flex flex-row gap-2">
-        <RouterLink to="/"><ArrowLeft /></RouterLink>
+        <Tooltip>
+          <TooltipTrigger>
+            <RouterLink to="/"><ArrowLeft /></RouterLink>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Back to home</p>
+          </TooltipContent>
+        </Tooltip>
         <CardTitle>{{ movie.Title }}</CardTitle>
       </div></CardHeader
     >
     <CardContent>
       <div class="flex flex-row gap-4">
-        <div>
-          <img :src="movie.Poster" class="h-96 w-96" alt="poster" />
+        <div class="">
+          <img
+            :src="movie.Poster"
+            class="h-96 w-96 rounded-lg shadow-md"
+            alt="poster"
+          />
         </div>
         <ScrollArea class="h-96">
           <div class="flex flex-col gap-2">
@@ -115,6 +126,11 @@
 </template>
 
 <script lang="ts">
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { ArrowLeft, Copy, CopyCheck } from "lucide-vue-next";
 import { Button } from "../components/ui/button";
 import { Card, CardHeader, CardTitle } from "../components/ui/card";
@@ -137,6 +153,9 @@ export default {
     ArrowLeft,
     Copy,
     CopyCheck,
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
   },
   setup() {
     return {};

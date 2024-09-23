@@ -3,9 +3,9 @@
     class="flex w-full rounded-md hover:bg-slate-100 hover:cursor-pointer"
     @click="goToMovie()"
   >
-    <div class="flex items-center m-2 w-full flex-row gap-4">
+    <div class="flex items-center m-4 w-full flex-row gap-4">
       <div>
-        <img :src="movie.Poster" alt="poster" />
+        <img :src="movie.Poster" alt="poster" class="size-52" />
       </div>
       <div class="flex flex-col gap-2">
         <p class="text-nowrap">

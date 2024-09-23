@@ -14,14 +14,22 @@ export const useMovieStore = defineStore({
   },
 });
 
-export const useMoviesStore = defineStore({
-  id: "movies",
+export const useMoviesStore = defineStore("movies", {
   state: () => ({
     movies: [] as Movie[],
   }),
   actions: {
     setMovies(movies: Movie[]) {
       this.movies = movies;
+    },
+    addMovie(movie: Movie) {
+      if (this.movies.find((m) => m.imdbID === movie.imdbID)) {
+        return;
+      }
+      this.movies.push(movie);
+    },
+    resetMovies() {
+      this.movies = [];
     },
     async getMovieByID(id: string) {
       console.log("we fetch id", id);

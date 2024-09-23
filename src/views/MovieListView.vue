@@ -45,6 +45,7 @@
 </template>
 
 <script lang="ts">
+import { error } from "console";
 import { Loader2, Search } from "lucide-vue-next";
 import MoviesList from "../components/movies/MoviesList.vue";
 import { Button } from "../components/ui/button";
@@ -85,30 +86,37 @@ export default {
       }
       this.movieId = id;
       this.isLoadingId = true;
-      const response = await fetch(
-        `http://www.omdbapi.com/?i=${id}&apikey=${API_KEY}`
-      );
-      const data = await response.json();
+      const store = useMoviesStore();
+      store.$reset;
 
+      const listId = id.split(",");
+      listId.map(async (id) => {
+        const response = await fetch(
+          `http://www.omdbapi.com/?i=${id}&apikey=${API_KEY}`
+        );
+        const data = await response.json();
+
+        if (response.status !== 200 && !this.error) {
+          this.error = data;
+          setTimeout(() => {
+            this.error = null;
+          }, 3000);
+          return;
+        }
+        if (data.Response === "False" && !this.error) {
+          this.error = data.Error;
+          setTimeout(() => {
+            this.error = null;
+          }, 3000);
+          return;
+        }
+
+        const movie = data as Movie;
+        store.addMovie(movie);
+      });
       this.isLoadingId = false;
-      if (response.status !== 200) {
-        this.error = data;
-        setTimeout(() => {
-          this.error = null;
-        }, 3000);
-        return;
-      }
-      if (data.Response === "False") {
-        this.error = data.Error;
-        setTimeout(() => {
-          this.error = null;
-        }, 3000);
-        return;
-      }
-
-      const movies = [data] as Movie[];
-      useMoviesStore().setMovies(movies);
     },
+
     async getMovieName(name: string) {
       if (name === "") {
         return;

@@ -41,7 +41,6 @@ export default {
     },
   },
   setup() {
-    console.log("movies", useMoviesStore().movies);
     return {};
   },
 };

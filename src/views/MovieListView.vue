@@ -30,7 +30,6 @@
 </template>
 
 <script lang="ts">
-import { error } from "console";
 import { Loader2, Search } from "lucide-vue-next";
 import MoviesList from "../components/movies/MoviesList.vue";
 import { Button } from "../components/ui/button";

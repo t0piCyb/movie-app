@@ -152,17 +152,17 @@
 </template>
 
 <script lang="ts">
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { ArrowLeft, Copy, CopyCheck, StarIcon } from "lucide-vue-next";
 import { Button } from "../components/ui/button";
 import { Card, CardHeader, CardTitle } from "../components/ui/card";
 import CardContent from "../components/ui/card/CardContent.vue";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Separator } from "../components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../components/ui/tooltip";
 import { useMoviesStore, useMovieStore } from "../stores/movies.store";
 
 export default {

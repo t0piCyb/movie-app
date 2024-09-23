@@ -1,27 +1,12 @@
 <template>
   <div class="flex flex-col gap-4 p-8">
     <div class="flex flex-row gap-4">
-      <div class="flex flex-row gap-2">
+      <div class="flex flex-row gap-2 w-full">
         <Input
-          v-model="movieName"
-          placeholder="Search movie by name"
-          @keyup.enter="getMovieName(movieName)"
-        ></Input>
-        <Button
-          v-if="!isLoadingName"
-          :variant="'ghost'"
-          @click="getMovieName(movieName)"
-          ><Search
-        /></Button>
-        <div v-else class="flex justify-center items-center">
-          <Loader2 class="animate-spin"></Loader2>
-        </div>
-      </div>
-      <div class="flex flex-row gap-2">
-        <Input
+          size="xl"
           v-model="movieId"
           @keyup.enter="getMovieID(movieId)"
-          placeholder="Search movie by id"
+          placeholder="Search movies by imdbID (separate by commas if you want to search multiple movies)"
         ></Input>
         <Button
           v-if="!isLoadingId"
@@ -91,60 +76,32 @@ export default {
 
       const listId = id.split(",");
       listId.map(async (id) => {
-        const response = await fetch(
-          `http://www.omdbapi.com/?i=${id}&apikey=${API_KEY}`
-        );
-        const data = await response.json();
+        if (id !== "") {
+          const response = await fetch(
+            `http://www.omdbapi.com/?i=${id}&apikey=${API_KEY}`
+          );
+          const data = await response.json();
 
-        if (response.status !== 200 && !this.error) {
-          this.error = data;
-          setTimeout(() => {
-            this.error = null;
-          }, 3000);
-          return;
-        }
-        if (data.Response === "False" && !this.error) {
-          this.error = data.Error;
-          setTimeout(() => {
-            this.error = null;
-          }, 3000);
-          return;
-        }
+          if (response.status !== 200 && !this.error) {
+            this.error = data;
+            setTimeout(() => {
+              this.error = null;
+            }, 3000);
+            return;
+          }
+          if (data.Response === "False" && !this.error) {
+            this.error = data.Error;
+            setTimeout(() => {
+              this.error = null;
+            }, 3000);
+            return;
+          }
 
-        const movie = data as Movie;
-        store.addMovie(movie);
+          const movie = data as Movie;
+          store.addMovie(movie);
+        }
       });
       this.isLoadingId = false;
-    },
-
-    async getMovieName(name: string) {
-      if (name === "") {
-        return;
-      }
-
-      this.movieName = name;
-      this.isLoadingName = true;
-      const response = await fetch(
-        `http://www.omdbapi.com/?t=${name}&apikey=${API_KEY}`
-      );
-      const data = await response.json();
-      this.isLoadingName = false;
-      if (response.status !== 200) {
-        this.error = data;
-        setTimeout(() => {
-          this.error = null;
-        }, 3000);
-        return;
-      }
-      if (data.Response === "False") {
-        this.error = data.Error;
-        setTimeout(() => {
-          this.error = null;
-        }, 3000);
-        return;
-      }
-
-      useMoviesStore().setMovies([data as Movie]);
     },
   },
 };

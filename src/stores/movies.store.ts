@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { API_KEY } from "../lib/env";
 import { Movie } from "../models/movie.schema";
 
 export const useMovieStore = defineStore({
@@ -17,41 +16,40 @@ export const useMovieStore = defineStore({
 export const useMoviesStore = defineStore("movies", {
   state: () => ({
     movies: [] as Movie[],
+    filteredMovies: [] as Movie[],
+    filterTitle: "",
   }),
   actions: {
     setMovies(movies: Movie[]) {
       this.movies = movies;
+      this.setFilteredMovies(movies);
+    },
+
+    setFilteredMovies(movies: Movie[]) {
+      this.filteredMovies = movies;
+    },
+    setFilterTitle(title: string) {
+      this.filterTitle = title;
+      if (title === "") {
+        this.setFilteredMovies(this.movies);
+        return;
+      }
+      this.setFilteredMovies(
+        this.movies.filter((m) =>
+          m.Title.toLowerCase().includes(title.toLowerCase())
+        )
+      );
     },
     addMovie(movie: Movie) {
       if (this.movies.find((m) => m.imdbID === movie.imdbID)) {
         return;
       }
       this.movies.push(movie);
+      this.setFilteredMovies(this.movies);
     },
     resetMovies() {
       this.movies = [];
-    },
-    async getMovieByID(id: string) {
-      console.log("we fetch id", id);
-      const response = await fetch(
-        `http://www.omdbapi.com/?i=${id}&apikey=${API_KEY}`
-      );
-      const data = await response.json();
-      this.movies = data.results;
-    },
-    async getMovies() {
-      const response = await fetch(
-        `http://www.omdbapi.com/?apikey=${API_KEY}&s=the+matrix`
-      );
-      const data = await response.json();
-      this.movies = data.results;
-    },
-    async getMoviePoster(id: string) {
-      const response = await fetch(
-        `http://img.omdbapi.com/?i=${id}&apikey=${API_KEY}&plot=full`
-      );
-      const data = await response.json();
-      return data.Poster;
+      this.filteredMovies = [];
     },
   },
 });

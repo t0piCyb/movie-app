@@ -3,7 +3,7 @@
     class="flex w-full rounded-md hover:bg-slate-100 transition duration-150 ease-out hover:ease-in hover:cursor-pointer"
   >
     <div class="relative">
-      <div class="end-0 top-0 absolute">
+      <div class="end-0 top-3 absolute">
         <Tooltip>
           <TooltipTrigger>
             <Button variant="ghost" @click="toggleFavorite()" class="z-10">

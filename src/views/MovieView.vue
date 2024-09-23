@@ -119,15 +119,22 @@
             <Separator />
             <div>
               imdbID : <span class="font-bold">{{ movie.imdbID }}</span>
-              <Button
-                :disabled="isCopied"
-                @click="copyId()"
-                variant="ghost"
-                size="xs"
-                class="ml-2"
-                ><Copy v-if="!isCopied" :size="15" />
-                <CopyCheck v-else /><CopyCheck :size="15" v-else
-              /></Button>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button
+                    :disabled="isCopied"
+                    @click="copyId()"
+                    variant="ghost"
+                    size="xs"
+                    class="ml-2"
+                    ><Copy v-if="!isCopied" :size="15" />
+                    <CopyCheck v-else /><CopyCheck :size="15" v-else
+                  /></Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Copy imdbID</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
             <Separator />
             <div class="flex flex-col gap-1">
